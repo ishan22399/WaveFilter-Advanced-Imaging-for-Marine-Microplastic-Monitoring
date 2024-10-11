@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #a8e0e2, #f3e5ab); /* Gradient background */
+            font-family: Arial, sans-serif; /* Set a nice font */
+            padding: 20px; /* Add some padding */
+        }
+        h1 {
+            font-size: 2.5rem; /* Increase the size of the heading */
+            font-weight: bold; /* Make the heading bold */
+            text-align: center; /* Center the heading */
+            margin-bottom: 30px; /* Space below the heading */
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .gallery-item {
+            border: 1px solid #ddd;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 300px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation for image */
+        }
+        .gallery-item:hover {
+            transform: scale(1.05); /* Slight zoom effect on hover */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Enhanced shadow on hover */
+        }
+        .gallery-item img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        .gallery-item .info {
+            padding: 10px;
+            text-align: center;
+            background-color: #fff; /* White background for info */
+        }
+        .btn-primary {
+            background-color: #28a745; /* Primary button color */
+            border: none; /* Remove border */
+        }
+        .btn-primary:hover {
+            background-color: #218838; /* Darker shade on hover */
+        }
+        .fancy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .fancy-table th, .fancy-table td {
+            border: 1px solid #28a745; /* Green border */
+            padding: 12px;
+            text-align: left;
+        }
+        .fancy-table th {
+            background-color: #28a745; /* Green background for header */
+            color: white; /* White text for header */
+        }
+        .fancy-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2; /* Light gray background for even rows */
+        }
+        .header, .footer {
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+        .footer {
+            margin-top: 30px; /* Space above the footer */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Detection Results Platform</h2>
+        <p>Your trusted solution for accurate and efficient detection.</p>
+    </div>
+    
+    <div class="container">
+        <h1>
+            <span class="highlight-green">Detection</span> 
+            <span class="highlight-black">Results</span>
+        </h1>
+        <div class="gallery">
+            {% for image in images %}
+            <div class="gallery-item">
+                <img src="{{ url_for('get_result_image', filename=image) }}" alt="Result Image">
+                <div class="info">
+                    <p>{{ image }}</p>
+                    <a href="{{ url_for('get_result_image', filename=image) }}" class="btn btn-primary" download>Download</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; 2024 Detection Results Platform. All rights reserved.</p>
+        <p>Contact us: support@danger.com</p>
+    </div>
+</body>
+</html>
