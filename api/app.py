@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, send_from_directory
 import torch
 from PIL import Image
 import cv2
@@ -55,7 +55,7 @@ def process_image(image_path):
     """Process image and return detection results"""
     try:
         # Load and verify the image
-        img_pil = Image.open(image_path)
+        img_pil = Image.open(image_path).convert("RGB")  # Convert to RGB
         img_cv = cv2.imread(image_path)
         if img_cv is None:
             raise ValueError("OpenCV couldn't load the image")
@@ -148,8 +148,6 @@ def detect():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-from flask import send_from_directory, render_template
-
 @app.route('/results')
 def results():
     """Render a page displaying all detection result images."""
@@ -165,10 +163,6 @@ def get_result_image(filename):
     """Serve result images."""
     return send_from_directory(RESULTS_FOLDER, filename)
 
-def allowed_file(filename):
-    """Check if the file extension is allowed."""
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 if __name__ == '__main__':
     print(f"Starting Flask application...")
     print(f"Upload folder: {UPLOAD_FOLDER}")
@@ -179,5 +173,4 @@ if __name__ == '__main__':
         print("Failed to load model. Please ensure the model file exists and is valid.")
         exit(1)
         
-    app.run(debug=True)
-
+    app.run(debug=True, host='0.0.0.0', port=5000)  # Allow external connections
